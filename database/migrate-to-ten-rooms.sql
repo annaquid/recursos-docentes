@@ -1,6 +1,6 @@
 -- Migración segura de 5 a 10 salas.
 -- Ejecutar UNA VEZ en Supabase > SQL Editor.
-DO $
+DO $migrate$
 DECLARE c record;
 BEGIN
   FOR c IN
@@ -12,7 +12,7 @@ BEGIN
   LOOP
     EXECUTE format('ALTER TABLE %s DROP CONSTRAINT %I', c.table_name, c.conname);
   END LOOP;
-END $;
+END $migrate$;
 
 ALTER TABLE public.room_progress
   ADD CONSTRAINT room_progress_room_number_check CHECK (room_number BETWEEN 1 AND 10);
