@@ -41,7 +41,7 @@ BEGIN
   FROM public.participants p
   JOIN public.game_sessions s ON s.id = p.session_id
   WHERE p.id = p_participant_id
-    AND p.access_token_hash = extensions.digest(p_token, 'sha256');
+    AND p.access_token_hash = encode(extensions.digest(p_token, 'sha256'), 'hex');
 
   IF v_result IS NULL THEN
     RETURN jsonb_build_object('error', 'invalid_participant');
