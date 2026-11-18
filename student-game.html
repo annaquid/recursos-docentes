@@ -127,8 +127,8 @@ function renderRoom2(){
 }
 function showRoomTransition(from,to){
  const el=$("activity");
- el.innerHTML='<div class="room-transition" id="roomTransition"><div class="transition-orbit">✦</div><p class="tag">Sistema de seguridad</p><h2>¡Sala '+from+' superada!</h2><p class="transition-copy">Has recuperado el mecanismo. El refugio reconoce tu progreso.</p><div class="transition-lock"><span class="lock-core">✓</span></div><p class="transition-unlock">Desbloqueando sala '+to+'…</p><div class="transition-line"><span></span></div><p class="tag">ACCESO CONCEDIDO · SALA '+to+'</p></div>';
- window.setTimeout(()=>{const panel=$("roomTransition");if(panel){panel.classList.add("room-transition-exit");window.setTimeout(()=>renderActivity(),650)}else renderActivity()},7000);
+ el.innerHTML='<div class="room-transition" id="roomTransition"><div class="transition-orbit">✦</div><p class="tag">Sistema de seguridad</p><h2>¡Sala '+from+' superada!</h2><p class="transition-copy">Has recuperado el mecanismo. El refugio reconoce tu progreso.</p><div class="transition-lock"><span class="lock-core">✓</span></div><p class="transition-unlock">La sala '+to+' está preparada.</p><div class="transition-line"><span></span></div><p class="tag">ACCESO DISPONIBLE · SALA '+to+'</p><button type="button" class="primary" id="unlockNextRoom">Hacer clic para desbloquear sala '+to+'</button></div>';
+ $("unlockNextRoom").onclick=()=>{const panel=$("roomTransition");const button=$("unlockNextRoom");if(button)button.disabled=true;if(panel){panel.classList.add("room-transition-exit");window.setTimeout(()=>renderActivity(),650)}else renderActivity()};
 }
 function room2Validate(){
  let error='';
