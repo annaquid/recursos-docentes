@@ -34,23 +34,19 @@ function room1ButtonGroup(key,values,selectedValues){return '<div class="choice-
  function previousAnswerReminder(){
   if(room1Stage===0)return '';
   if(room1Stage===1){
-   const selected=room1Data.pairs.length?room1Data.pairs.slice().sort().join(', '):'No hay pares seleccionados';
-   return '<div class="success-note"><p class="tag">Recordatorio · Prueba anterior</p><h3>Los pares que has identificado</h3><p><strong>Tu respuesta:</strong> '+selected+'</p><p><strong>Relación completa:</strong> (1,1), (1,2), (1,3), (2,1), (2,2), (3,1).</p><p class="muted">Para el dominio, mira las primeras componentes; para el recorrido, las segundas.</p></div>';
+   return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p><h3>La relación del archivo</h3><p>Trabajamos con A={1,2,3} y xRy si y solo si x+y≤4.</p><p class="muted">Para el dominio, toma las primeras componentes de los pares de R. Para el recorrido, toma las segundas componentes. En la matriz, las filas representan x y las columnas representan y.</p></div>';
   }
   if(room1Stage===2){
-   const matrix=[0,1,2].map(i=>[0,1,2].map(j=>room1Data.matrix.includes(i*3+j)?'1':'0').join('')).join('<br>');
-   return '<div class="success-note"><p class="tag">Recordatorio · Prueba anterior</p><h3>Tu representación de la relación</h3><p><strong>Dominio:</strong> {'+room1Data.domain.slice().sort().join(', ')+'} · <strong>Recorrido:</strong> {'+room1Data.range.slice().sort().join(', ')+'}</p><p><strong>Matriz que has construido:</strong></p><p style="font:700 1.15rem ui-monospace,monospace;text-align:center;letter-spacing:.18em">'+matrix+'</p><p class="muted">Usa los pares y la matriz para justificar las propiedades.</p></div>';
+   return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p><h3>Representaciones de una relación</h3><p>Cada entrada de la matriz indica si el par correspondiente pertenece o no a R.</p><p class="muted">La entrada de la fila i y columna j representa el par (i,j). Puedes consultar la definición de R que aparece arriba.</p></div>';
   }
-  const names={reflexive:'Reflexiva',symmetric:'Simétrica',antisymmetric:'Antisimétrica',transitive:'Transitiva'};
-  const props=Object.keys(names).map(k=>'<li>'+names[k]+': <strong>'+(room1Data.properties[k]==='true'?'Sí':'No')+'</strong></li>').join('');
-  return '<div class="success-note"><p class="tag">Recordatorio · Prueba anterior</p><h3>Las propiedades que has clasificado</h3><ul>'+props+'</ul><p class="muted">Equivalencia exige reflexiva, simétrica y transitiva. Orden parcial exige reflexiva, antisimétrica y transitiva.</p></div>';
+  return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p><h3>Definiciones de las propiedades</h3><ul><li><strong>Reflexiva:</strong> todo elemento está relacionado consigo mismo.</li><li><strong>Simétrica:</strong> si xRy, entonces yRx.</li><li><strong>Antisimétrica:</strong> si xRy e yRx, entonces x=y.</li><li><strong>Transitiva:</strong> si xRy e yRz, entonces xRz.</li></ul><p class="muted">Equivalencia: reflexiva, simétrica y transitiva. Orden parcial: reflexiva, antisimétrica y transitiva.</p></div>';
  }
 function renderRoom1(){
  const el=$("activity"),pairs=["(1,1)","(1,2)","(1,3)","(2,1)","(2,2)","(2,3)","(3,1)","(3,2)","(3,3)"];
  const relationText='<div class="mission-intro"><p class="tag">Relación del archivo</p><h2>El registro de pares</h2><p>Trabajamos en <strong>A={1,2,3}</strong> con la relación:</p><p style="font-size:1.25rem;text-align:center"><strong>xRy si y solo si x+y ≤ 4</strong></p><p class="muted">La condición se mantiene visible durante toda la sala.</p></div>';
  let body='';
  if(room1Stage===0){
-  body='<div class="task"><h3>Prueba 1 · Recupera los pares</h3><p>Selecciona todos los pares (x,y) que cumplen x+y≤4. Hay seis conexiones correctas.</p><p class="selection-count">Seleccionados: <strong id="pairCount">'+room1Data.pairs.length+'/6</strong></p><div class="choice-grid">'+pairs.map(p=>'<button type="button" class="choice" data-pair="'+p+'" aria-pressed="'+room1Data.pairs.includes(p)+'">'+p+'</button>').join('')+'</div><button class="primary" id="room1Check">Validar conexiones</button></div>';
+  body='<div class="task"><h3>Prueba 1 · Recupera los pares</h3><p>Selecciona todos los pares (x,y) que cumplen x+y≤4.</p><div class="choice-grid">'+pairs.map(p=>'<button type="button" class="choice" data-pair="'+p+'" aria-pressed="'+room1Data.pairs.includes(p)+'">'+p+'</button>').join('')+'</div><button class="primary" id="room1Check">Validar conexiones</button></div>';
  }else if(room1Stage===1){
   body='<div class="task"><h3>Prueba 2 · Rastrea el registro</h3><p>Selecciona los elementos que aparecen como primera componente (dominio) y como segunda componente (recorrido).</p><h3>Dominio</h3>'+room1ButtonGroup("domain",["1","2","3"],room1Data.domain)+'<h3>Recorrido</h3>'+room1ButtonGroup("range",["1","2","3"],room1Data.range)+'<h3>Construye la matriz</h3><p>Filas: primera componente. Columnas: segunda componente. Pulsa las casillas para poner 1 donde el par pertenece a R y 0 donde no pertenece.</p><div class="matrix-labels"><span>Col. 1</span><span>Col. 2</span><span>Col. 3</span></div><div class="matrix-grid">'+Array.from({length:9},(_,i)=>'<button type="button" class="matrix-cell" data-cell="'+i+'" aria-label="Fila '+(Math.floor(i/3)+1)+', columna '+(i%3+1)+'" aria-pressed="'+room1Data.matrix.includes(i)+'">'+(room1Data.matrix.includes(i)?'1':'0')+'</button>').join('')+'</div><button class="primary" id="room1Check">Validar representación</button></div>';
  }else if(room1Stage===2){
@@ -60,7 +56,7 @@ function renderRoom1(){
   body='<div class="task"><h3>Prueba 4 · Diagnóstico final</h3><p>Con las propiedades anteriores, determina qué tipo de relación NO es.</p><div class="task"><h3>¿Es una relación de equivalencia?</h3><div class="choice-grid"><button type="button" class="choice" data-diagnosis="equivalence" data-value="true" aria-pressed="'+(room1Data.diagnosis.equivalence==="true")+'">Sí</button><button type="button" class="choice" data-diagnosis="equivalence" data-value="false" aria-pressed="'+(room1Data.diagnosis.equivalence==="false")+'">No</button></div></div><div class="task"><h3>¿Es una relación de orden parcial?</h3><div class="choice-grid"><button type="button" class="choice" data-diagnosis="partial_order" data-value="true" aria-pressed="'+(room1Data.diagnosis.partial_order==="true")+'">Sí</button><button type="button" class="choice" data-diagnosis="partial_order" data-value="false" aria-pressed="'+(room1Data.diagnosis.partial_order==="false")+'">No</button></div></div><p class="muted">Equivalencia requiere reflexividad, simetría y transitividad. Orden parcial requiere reflexividad, antisimetría y transitividad.</p><button class="primary" id="room1Check">Cerrar diagnóstico y desbloquear sala</button></div>';
  }
  el.innerHTML='<p class="tag">Sala 01 · El registro de pares</p>'+room1Progress()+relationText+previousAnswerReminder()+body+room1Feedback();
- el.querySelectorAll('[data-pair]').forEach(b=>b.onclick=()=>{toggleChoice(room1Data.pairs,b.dataset.pair);b.setAttribute('aria-pressed',room1Data.pairs.includes(b.dataset.pair));$("pairCount").textContent=room1Data.pairs.length+'/6'});
+ el.querySelectorAll('[data-pair]').forEach(b=>b.onclick=()=>{toggleChoice(room1Data.pairs,b.dataset.pair);b.setAttribute('aria-pressed',room1Data.pairs.includes(b.dataset.pair))});
  el.querySelectorAll('[data-group]').forEach(b=>b.onclick=()=>{const k=b.dataset.group;toggleChoice(room1Data[k],b.dataset.value);b.setAttribute('aria-pressed',room1Data[k].includes(b.dataset.value))});
  el.querySelectorAll('[data-cell]').forEach(b=>b.onclick=()=>{const n=Number(b.dataset.cell);toggleChoice(room1Data.matrix,n);b.setAttribute('aria-pressed',room1Data.matrix.includes(n));b.textContent=room1Data.matrix.includes(n)?'1':'0'});
  el.querySelectorAll('[data-prop]').forEach(b=>b.onclick=()=>{room1Data.properties[b.dataset.prop]=b.dataset.value;el.querySelectorAll('[data-prop="'+b.dataset.prop+'"]').forEach(x=>x.setAttribute('aria-pressed',x===b))});
@@ -71,8 +67,7 @@ function room1Validate(){
  room1Error='';
  if(room1Stage===0){
   const target=["(1,1)","(1,2)","(1,3)","(2,1)","(2,2)","(3,1)"];
-  if(room1Data.pairs.length!==6)room1Error='Selecciona seis pares. Comprueba la suma de las dos componentes.';
-  else if(!target.every(x=>room1Data.pairs.includes(x)))room1Error='Hay alguna conexión incorrecta o falta una. Para cada tarjeta, suma sus dos números y comprueba si el resultado es menor o igual que 4.';
+  if(room1Data.pairs.length!==target.length||!target.every(x=>room1Data.pairs.includes(x)))room1Error='Hay alguna conexión incorrecta o falta una. Para cada tarjeta, suma sus dos números y comprueba si el resultado es menor o igual que 4.';
   else{room1Stage=1;room1Error=''}
  }else if(room1Stage===1){
   const target=[0,1,2,3,4,6];
