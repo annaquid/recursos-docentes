@@ -1,20 +1,24 @@
 -- Migración segura de 5 a 10 salas.
 -- Ejecutar UNA VEZ en Supabase > SQL Editor.
-DO $$
+DO $
 DECLARE c record;
 BEGIN
   FOR c IN
-    SELECT conname FROM pg_constraint
-    WHERE conrelid='public.room_progress'::regclass
+    SELECT conname, conrelid::regclass AS table_name
+    FROM pg_constraint
+    WHERE conrelid IN ('public.room_progress'::regclass, 'public.interaction_events'::regclass)
       AND contype='c'
       AND pg_get_constraintdef(oid) ILIKE '%room_number%'
   LOOP
-    EXECUTE format('ALTER TABLE public.room_progress DROP CONSTRAINT %I',c.conname);
+    EXECUTE format('ALTER TABLE %s DROP CONSTRAINT %I', c.table_name, c.conname);
   END LOOP;
-END $$;
+END $;
 
 ALTER TABLE public.room_progress
   ADD CONSTRAINT room_progress_room_number_check CHECK (room_number BETWEEN 1 AND 10);
+
+ALTER TABLE public.interaction_events
+  ADD CONSTRAINT interaction_events_room_number_check CHECK (room_number BETWEEN 1 AND 10);
 
 -- El trigger completa los registros 6..10 incluso para participantes creados
 -- por la función join_game_session que originalmente insertaba solo 1..5.
@@ -64,7 +68,6 @@ DECLARE
   v_r public.room_progress%ROWTYPE;
   v_ok boolean := false;
   v_score integer := 100;
-  v_expected text;
 BEGIN
   SELECT * INTO v_p FROM public.participants
   WHERE id=p_participant_id
@@ -90,7 +93,7 @@ BEGIN
         AND p_answer->>'symmetric'='true'
         AND p_answer->>'antisymmetric'='false'
         AND p_answer->>'transitive'='true'
-        AND p_answer->>'failed_property'='symmetric';
+        AND p_answer->>'failed_property'='antisymmetric';
     WHEN 3 THEN
       v_ok := p_answer->>'inverse_relation'='a1,b1,b2,c3'
         AND p_answer->>'composition'='1x,1y,2y,3y';
