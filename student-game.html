@@ -149,6 +149,9 @@ function genericReminder(room,stage){
   const answers=props.map(k=>'<p><strong>'+labels[k]+':</strong> '+(a[k]==='true'?'Sí':'No')+'</p>').join('');
   return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p>'+answers+'</div>';
  }
+ if(room===3&&stage>=2){
+  return '<div class="notice"><p class="tag">Recordatorio · Relaciones de la prueba</p><p><strong>R</strong> = {(1,a),(1,b),(2,b),(3,c)}</p><p><strong>S</strong> = {(a,x),(b,y),(b,z),(c,y),(d,w)}</p><p>La composición que se ha calculado es S∘R.</p></div>';
+ }
  const show=(keys)=>keys.map(k=>{const field=tasks[room-1].flatMap(t=>t.f).find(f=>f[0]===k);if(!field||a[k]===undefined)return '';return '<p><strong>'+field[1]+':</strong> '+a[k]+'</p>'}).join('');
  const relevant={4:['classes'],5:['classes'],6:['covers'],7:['quotients','remainder_sequence'],10:['representative','reduced_modulus']};
  const keys=relevant[room]||[];
