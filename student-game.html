@@ -34,7 +34,7 @@ function room1ButtonGroup(key,values,selectedValues){return '<div class="choice-
  function previousAnswerReminder(){
   if(room1Stage===0)return '';
   if(room1Stage===1){
-   return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p><h3>La relación del archivo</h3><p>Trabajamos con A={1,2,3} y xRy si y solo si x+y≤4.</p><p class="muted">Para el dominio, toma las primeras componentes de los pares de R. Para el recorrido, toma las segundas componentes. En la matriz, las filas representan x y las columnas representan y.</p></div>';
+   return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p><h3>La relación con sus pares</h3><p>Trabajamos con A={1,2,3} y la relación:</p><p style="text-align:center"><strong>R={(1,1), (1,2), (1,3), (2,1), (2,2), (3,1)}</strong></p><p class="muted">A partir de estos pares, calcula el dominio (primeras componentes), el recorrido (segundas componentes) y construye la matriz de la relación.</p></div>';
   }
   if(room1Stage===2){
    return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p><h3>Representaciones de una relación</h3><p>Cada entrada de la matriz indica si el par correspondiente pertenece o no a R.</p><p class="muted">La entrada de la fila i y columna j representa el par (i,j). Puedes consultar la definición de R que aparece arriba.</p></div>';
