@@ -45,11 +45,7 @@ FROM public.participants p
 CROSS JOIN generate_series(6,10) AS n
 ON CONFLICT (participant_id,room_number) DO NOTHING;
 
--- Mantener solo la primera sala disponible si hay participantes antiguos.
-UPDATE public.room_progress SET status='locked'
-WHERE room_number BETWEEN 2 AND 10 AND status='available';
-UPDATE public.room_progress SET status='available'
-WHERE room_number=1 AND status='locked';
+-- Se preserva el estado de progreso ya existente en las salas 1..5.
 
 CREATE OR REPLACE FUNCTION public.submit_room_answer(
   p_participant_id uuid,
