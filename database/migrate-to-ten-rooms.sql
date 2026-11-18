@@ -82,52 +82,50 @@ BEGIN
 
   CASE p_room_number
     WHEN 1 THEN
-      v_ok := p_answer->>'equivalent'='true'
-        AND p_answer->>'tautology'='true'
-        AND p_answer->>'false_case'='false';
+      v_ok := p_answer->>'matrix'='110|110|001'
+        AND p_answer->>'domain'='1,2,3'
+        AND p_answer->>'range'='1,2,3';
     WHEN 2 THEN
-      v_ok := p_answer->>'union'='1,2,3,4,5'
-        AND p_answer->>'intersection'='3,4'
-        AND p_answer->>'difference'='1,2'
-        AND p_answer->>'product_cardinality'='12';
-    WHEN 3 THEN
       v_ok := p_answer->>'reflexive'='true'
         AND p_answer->>'symmetric'='true'
         AND p_answer->>'antisymmetric'='false'
         AND p_answer->>'transitive'='true'
-        AND p_answer->>'matrix'='110|110|001';
+        AND p_answer->>'failed_property'='symmetric';
+    WHEN 3 THEN
+      v_ok := p_answer->>'inverse_relation'='a1,b1,b2,c3'
+        AND p_answer->>'composition'='1x,1y,2y,3y';
     WHEN 4 THEN
       v_ok := p_answer->>'classes'='0,3,6|1,4,7|2,5,8'
         AND p_answer->>'class_count'='3'
         AND p_answer->>'class_of_5'='2,5,8';
     WHEN 5 THEN
+      v_ok := p_answer->>'classes'='-2,4|-1,3|0,2|1'
+        AND p_answer->>'class_count'='4'
+        AND p_answer->>'class_of_3'='-1,3';
+    WHEN 6 THEN
       v_ok := p_answer->>'least'='1'
         AND p_answer->>'greatest'='12'
         AND p_answer->>'minimal'='1'
         AND p_answer->>'maximal'='12'
         AND p_answer->>'covers'='1-2,1-3,2-4,2-6,3-6,4-12,6-12';
-    WHEN 6 THEN
+    WHEN 7 THEN
       v_ok := p_answer->>'gcd'='18'
         AND p_answer->>'quotients'='1,3,1,2'
         AND p_answer->>'remainder_sequence'='54,36,18,0';
-    WHEN 7 THEN
+    WHEN 8 THEN
       v_ok := p_answer->>'bezout_x'='4'
         AND p_answer->>'bezout_y'='-5'
         AND p_answer->>'dio_x'='2'
         AND p_answer->>'dio_y'='1';
-    WHEN 8 THEN
+    WHEN 9 THEN
       v_ok := p_answer->>'remainder'='7'
         AND p_answer->>'inverse'='4'
         AND p_answer->>'power'='4';
-    WHEN 9 THEN
-      v_ok := p_answer->>'crt_solution'='8'
-        AND p_answer->>'crt_modulus'='15'
-        AND p_answer->>'crt_solutions'='8,23,38';
     WHEN 10 THEN
-      v_ok := p_answer->>'degree_sequence'='3,2,2,1'
-        AND p_answer->>'odd_vertices'='C,D'
-        AND p_answer->>'euler_trail'='true'
-        AND p_answer->>'euler_circuit'='false';
+      v_ok := p_answer->>'representative'='7'
+        AND p_answer->>'reduced_modulus'='15'
+        AND p_answer->>'solutions'='7,22,37'
+        AND p_answer->>'count'='3';
   END CASE;
 
   UPDATE public.room_progress
