@@ -69,14 +69,14 @@ BEGIN
         AND p_answer->>'inverse'='4';
     WHEN 5 THEN
       v_ok := p_answer->>'representative'='7'
-        AND p_answer->>'solutions'='7,22'
-        AND p_answer->>'count'='2';
+        AND p_answer->>'solutions'='7,22,37'
+        AND p_answer->>'count'='3';
   END CASE;
 
   UPDATE public.room_progress
   SET attempts=attempts+1,
       status=CASE WHEN v_ok THEN 'completed' ELSE 'in_progress' END,
-      score=CASE WHEN v_ok THEN GREATEST(score,v_score) ELSE score END,
+      score=CASE WHEN v_ok THEN GREATEST(COALESCE(score,0),v_score) ELSE score END,
       completed_at=CASE WHEN v_ok THEN now() ELSE completed_at END,
       updated_at=now()
   WHERE participant_id=p_participant_id AND room_number=p_room_number;
