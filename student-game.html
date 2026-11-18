@@ -33,14 +33,17 @@ function room1Feedback(){return room1Error?'<div class="hint" role="status">'+ro
 function room1ButtonGroup(key,values,selectedValues){return '<div class="choice-grid">'+values.map(v=>'<button type="button" class="choice" data-group="'+key+'" data-value="'+v+'" aria-pressed="'+selectedValues.includes(v)+'">'+v+'</button>').join('')+'</div>'}
  function previousAnswerReminder(){
   if(room1Stage===0)return '';
+  const pairs='<p><strong>Relación:</strong> R={(1,1), (1,2), (1,3), (2,1), (2,2), (3,1)}</p>';
+  const matrix='<p><strong>Matriz:</strong></p><p style="font:700 1.1rem ui-monospace,monospace;text-align:center;letter-spacing:.18em">111<br>110<br>100</p>';
+  const properties='<p><strong>Propiedades:</strong> reflexiva: no · simétrica: sí · antisimétrica: no · transitiva: no.</p>';
   if(room1Stage===1){
-   return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p><h3>La relación con sus pares</h3><p>Trabajamos con A={1,2,3} y la relación:</p><p style="text-align:center"><strong>R={(1,1), (1,2), (1,3), (2,1), (2,2), (3,1)}</strong></p><p class="muted">A partir de estos pares, calcula el dominio (primeras componentes), el recorrido (segundas componentes) y construye la matriz de la relación.</p></div>';
+   return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p>'+pairs+'</div>';
   }
   if(room1Stage===2){
-   return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p><h3>Representaciones de una relación</h3><p>Cada entrada de la matriz indica si el par correspondiente pertenece o no a R.</p><p class="muted">La entrada de la fila i y columna j representa el par (i,j). Puedes consultar la definición de R que aparece arriba.</p></div>';
+   return '<div class="notice"><p class="tag">Recordatorio · Pruebas anteriores</p>'+pairs+matrix+'</div>';
   }
-  return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p><h3>Definiciones de las propiedades</h3><ul><li><strong>Reflexiva:</strong> todo elemento está relacionado consigo mismo.</li><li><strong>Simétrica:</strong> si xRy, entonces yRx.</li><li><strong>Antisimétrica:</strong> si xRy e yRx, entonces x=y.</li><li><strong>Transitiva:</strong> si xRy e yRz, entonces xRz.</li></ul><p class="muted">Equivalencia: reflexiva, simétrica y transitiva. Orden parcial: reflexiva, antisimétrica y transitiva.</p></div>';
- }
+  return '<div class="notice"><p class="tag">Recordatorio · Pruebas anteriores</p>'+pairs+matrix+properties+'</div>';
+}
 function renderRoom1(){
  const el=$("activity"),pairs=["(1,1)","(1,2)","(1,3)","(2,1)","(2,2)","(2,3)","(3,1)","(3,2)","(3,3)"];
  const relationText='<div class="mission-intro"><p class="tag">Relación del archivo</p><h2>El registro de pares</h2><p>Trabajamos en <strong>A={1,2,3}</strong> con la relación:</p><p style="font-size:1.25rem;text-align:center"><strong>xRy si y solo si x+y ≤ 4</strong></p><p class="muted">La condición se mantiene visible durante toda la sala.</p></div>';
