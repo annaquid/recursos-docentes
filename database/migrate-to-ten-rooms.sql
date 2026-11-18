@@ -85,9 +85,16 @@ BEGIN
 
   CASE p_room_number
     WHEN 1 THEN
-      v_ok := p_answer->>'matrix'='110|110|001'
+      v_ok := p_answer->>'pairs'='(1,1);(1,2);(1,3);(2,1);(2,2);(3,1)'
+        AND p_answer->>'matrix'='111|110|100'
         AND p_answer->>'domain'='1,2,3'
-        AND p_answer->>'range'='1,2,3';
+        AND p_answer->>'range'='1,2,3'
+        AND p_answer->>'reflexive'='false'
+        AND p_answer->>'symmetric'='true'
+        AND p_answer->>'antisymmetric'='false'
+        AND p_answer->>'transitive'='false'
+        AND p_answer->>'equivalence'='false'
+        AND p_answer->>'partial_order'='false';
     WHEN 2 THEN
       v_ok := p_answer->>'reflexive'='true'
         AND p_answer->>'symmetric'='true'
