@@ -167,8 +167,6 @@ function genericAdvance(){
  if(room===5&&progress.stage===1){const a=progress.answers,norm=x=>x.replace(/[{}\\s]/g,"").split(",").filter(Boolean).sort().join(",");if(norm(a.minimal)!=="1"||norm(a.maximal)!=="12"||a.least!=="1"||a.greatest!=="12"){$("feedback").textContent="Revisa los elementos minimales y maximales y distingue estos conceptos de mínimo y máximo.";return}}
  if(room===5&&progress.stage===2){const a=progress.answers,norm=x=>x.replace(/[{}\\s]/g,"").split(",").filter(Boolean).sort().join(",");if(norm(a.a_minimal)!=="2,3"||norm(a.a_maximal)!=="2,3"||norm(a.a_lower)!=="1"||norm(a.a_upper)!=="6,12"||a.a_inf!=="1"||a.a_sup!=="6"){$("feedback").textContent="Revisa las cotas de A={2,3} dentro de D y distingue las cotas del propio subconjunto.";return}}
  if(room===5&&progress.stage===3){const a=progress.answers,norm=x=>x.replace(/[{}\\s]/g,"").split(",").filter(Boolean).sort().join(",");if(norm(a.b_minimal)!=="4,6"||norm(a.b_maximal)!=="4,6"||norm(a.b_lower)!=="1,2"||norm(a.b_upper)!=="12"||a.b_inf!=="2"||a.b_sup!=="12"){$("feedback").textContent="Revisa las cotas de B={4,6} dentro de D y sus extremos.";return}}
- if(room===3&&progress.stage===2){const value=progress.answers.composition_classes.toLowerCase().replace(/[{}()\s]/g,"");if(value!=="a,b|c"&&value!=="c|a,b"){$("feedback").textContent="Revisa qué elementos están relacionados entre sí en R∘R⁻¹. Escribe las clases distintas separadas por |.";return}}
- if(room===3&&progress.stage===3&&progress.answers.double_inverse!=="true"){$("feedback").textContent="Vuelve a comprobar qué ocurre al invertir dos veces una relación.";return}
  if(progress.stage<ts.length-1){progress.stage++;renderActivity();return}
  submitAnswer();
 }
