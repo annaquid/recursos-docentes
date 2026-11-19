@@ -1,4 +1,4 @@
--- Actualiza la validación de la sala 3 para las pruebas actuales de clases y conjuntos cociente.
+-- Actualiza las validaciones de las salas 3 y 4 para sus ejercicios actuales.
 -- Ejecutar en Supabase SQL Editor después de desplegar la versión actual de student-game.html.
 
 CREATE OR REPLACE FUNCTION public.submit_room_answer(
@@ -61,9 +61,22 @@ BEGIN
         AND p_answer->>'divisor_class_count'='4'
         AND regexp_replace(COALESCE(p_answer->>'divisor_quotient',''), '[[:space:]]', '', 'g')='{{1},{2,3,5,7},{4,9},{6,8,10}}';
     WHEN 4 THEN
-      v_ok := p_answer->>'classes'='0,3,6|1,4,7|2,5,8'
-        AND p_answer->>'class_count'='3'
-        AND p_answer->>'class_of_5'='2,5,8';
+      v_ok := p_answer->>'divides_2_3'='false'
+        AND p_answer->>'divides_2_8'='true'
+        AND p_answer->>'divides_3_12'='true'
+        AND p_answer->>'divides_8_12'='false'
+        AND regexp_replace(COALESCE(p_answer->>'comparable_4',''), '[{}()[:space:]]', '', 'g')='2,4,8,12'
+        AND regexp_replace(COALESCE(p_answer->>'comparable_6',''), '[{}()[:space:]]', '', 'g')='2,3,6,12'
+        AND regexp_replace(COALESCE(p_answer->>'div_minimal',''), '[{}()[:space:]]', '', 'g')='2,3'
+        AND regexp_replace(COALESCE(p_answer->>'div_maximal',''), '[{}()[:space:]]', '', 'g')='8,12'
+        AND lower(trim(COALESCE(p_answer->>'div_least','')))='ninguno'
+        AND lower(trim(COALESCE(p_answer->>'div_greatest','')))='ninguno'
+        AND regexp_replace(COALESCE(p_answer->>'subset_minimal',''), '[{}()[:space:]]', '', 'g')='4,6'
+        AND regexp_replace(COALESCE(p_answer->>'subset_maximal',''), '[{}()[:space:]]', '', 'g')='4,6'
+        AND regexp_replace(COALESCE(p_answer->>'subset_lower',''), '[{}()[:space:]]', '', 'g')='2'
+        AND regexp_replace(COALESCE(p_answer->>'subset_upper',''), '[{}()[:space:]]', '', 'g')='12'
+        AND lower(trim(COALESCE(p_answer->>'subset_inf','')))='2'
+        AND lower(trim(COALESCE(p_answer->>'subset_sup','')))='12';
     WHEN 5 THEN
       v_ok := p_answer->>'classes'='-2,4|-1,3|0,2|1'
         AND p_answer->>'class_count'='4'
