@@ -163,7 +163,7 @@ function genericAdvance(){
  let missing=false;
  els.forEach(e=>{const value=e.value.trim();if(!value)missing=true;else progress.answers[e.dataset.key]=value});
  if(missing){$("feedback").textContent="Completa todos los apartados antes de continuar.";return}
- if(room===3&&progress.stage===2&&progress.answers.diagonal_pairs!=="aa,bb,cc"){$("feedback").textContent="Revisa los pares de la composición cuyas dos componentes coinciden.";return}
+ if(room===3&&progress.stage===2&&!/^\\(?a\\s*,\\s*a\\)?\\s*,\\(?b\\s*,\\s*b\\)?\\s*,\\(?c\\s*,\\s*c\\)?$/i.test(progress.answers.diagonal_pairs)){$("feedback").textContent="Revisa los pares de la composición cuyas dos componentes coinciden. Puedes escribirlos como (a,a),(b,b),(c,c).";return}
  if(room===3&&progress.stage===3&&progress.answers.double_inverse!=="true"){$("feedback").textContent="Vuelve a comprobar qué ocurre al invertir dos veces una relación.";return}
  if(progress.stage<ts.length-1){progress.stage++;renderActivity();return}
  submitAnswer();
