@@ -115,7 +115,13 @@ BEGIN
         AND p_answer->>'div_minimal'='2,3'
         AND p_answer->>'div_maximal'='8,12'
         AND lower(p_answer->>'div_least')='ninguno'
-        AND lower(p_answer->>'div_greatest')='ninguno';
+        AND lower(p_answer->>'div_greatest')='ninguno'
+        AND p_answer->>'subset_minimal'='4,6'
+        AND p_answer->>'subset_maximal'='4,6'
+        AND p_answer->>'subset_lower'='2'
+        AND p_answer->>'subset_upper'='12'
+        AND p_answer->>'subset_inf'='2'
+        AND p_answer->>'subset_sup'='12';
     WHEN 5 THEN
       v_ok := p_answer->>'poset_minimal'='a,b'
         AND p_answer->>'poset_maximal'='d,e'
