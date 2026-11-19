@@ -155,6 +155,10 @@ function genericReminder(room,stage){
  if(room===3&&stage===2){
   return '<div class="notice"><p class="tag">Recordatorio · Definición de la segunda relación</p><p><strong>Conjunto:</strong> A={1,2,3,4,5,6,7,8,9,10}.</p><p><strong>Relación:</strong> xRy si y solo si x e y tienen el mismo número de divisores positivos.</p><p>Para calcular las clases, cuenta los divisores positivos de cada elemento.</p></div>';
  }
+ if(room===4&&stage===1){
+  const yes=k=>a[k]==='true'?'Sí':'No';
+  return '<div class="notice"><p class="tag">Recordatorio · Datos y respuestas de la prueba anterior</p><p><strong>Conjunto:</strong> D={2,3,4,6,8,12}.</p><p><strong>Orden:</strong> x⪯y si y solo si x divide a y.</p><p><strong>2⪯3:</strong> '+yes('divides_2_3')+' · <strong>2⪯8:</strong> '+yes('divides_2_8')+'</p><p><strong>3⪯12:</strong> '+yes('divides_3_12')+' · <strong>8⪯12:</strong> '+yes('divides_8_12')+'</p><p>Una relación x≺y es de cubrimiento si x divide a y y no existe z∈D distinto de x e y tal que x divide a z y z divide a y.</p></div>';
+ }
  const show=(keys)=>keys.map(k=>{const field=tasks[room-1].flatMap(t=>t.f).find(f=>f[0]===k);if(!field||a[k]===undefined)return '';return '<p><strong>'+field[1]+':</strong> '+a[k]+'</p>'}).join('');
  const relevant={3:['classes'],4:['classes'],5:['covers','minimal','maximal','least','greatest'],6:['quotients','remainder_sequence'],9:['representative','reduced_modulus']};
  const keys=relevant[room]||[];
