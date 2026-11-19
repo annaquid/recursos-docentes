@@ -157,7 +157,7 @@ function genericReminder(room,stage){
  }
  if(room===4&&stage===1){
   const yes=k=>a[k]==='true'?'Sí':'No';
-  return '<div class="notice"><p class="tag">Recordatorio · Datos y respuestas de la prueba anterior</p><p><strong>Conjunto:</strong> D={2,3,4,6,8,12}.</p><p><strong>Orden:</strong> x⪯y si y solo si x divide a y.</p><p><strong>2⪯3:</strong> '+yes('divides_2_3')+' · <strong>2⪯8:</strong> '+yes('divides_2_8')+'</p><p><strong>3⪯12:</strong> '+yes('divides_3_12')+' · <strong>8⪯12:</strong> '+yes('divides_8_12')+'</p><p>Dos elementos son comparables si se cumple x⪯y o y⪯x; es decir, si uno divide al otro.</p></div>';
+  return '<div class="notice"><p class="tag">Recordatorio · Datos y respuestas de la prueba anterior</p><p><strong>Conjunto:</strong> D={2,3,4,6,8,12}.</p><p><strong>Orden:</strong> x⪯y si y solo si x divide a y.</p><p><strong>2⪯3:</strong> '+yes('divides_2_3')+' · <strong>2⪯8:</strong> '+yes('divides_2_8')+'</p><p><strong>3⪯12:</strong> '+yes('divides_3_12')+' · <strong>8⪯12:</strong> '+yes('divides_8_12')+'</p></div>';
  }
  const show=(keys)=>keys.map(k=>{const field=tasks[room-1].flatMap(t=>t.f).find(f=>f[0]===k);if(!field||a[k]===undefined)return '';return '<p><strong>'+field[1]+':</strong> '+a[k]+'</p>'}).join('');
  const relevant={3:['classes'],4:['classes'],5:['covers','minimal','maximal','least','greatest'],6:['quotients','remainder_sequence'],9:['representative','reduced_modulus']};
