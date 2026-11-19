@@ -168,7 +168,7 @@ function genericAdvance(){
  els.forEach(e=>{const value=e.value.trim();if(!value)missing=true;else progress.answers[e.dataset.key]=value});
  if(missing){$("feedback").textContent="Completa todos los apartados antes de continuar.";return}
  if(room===4&&progress.stage===1&&(progress.answers.residue_4!=="1"||progress.answers.residue_7!=="1"||progress.answers.residue_8!=="2")){$("feedback").textContent="Comprueba el resto de cada elemento al dividirlo entre 3.";return}
- if(room===3&&progress.stage===2&&!/^\\(?a\\s*,\\s*a\\)?\\s*,\\(?b\\s*,\\s*b\\)?\\s*,\\(?c\\s*,\\s*c\\)?$/i.test(progress.answers.diagonal_pairs)){$("feedback").textContent="Revisa los pares de la composición cuyas dos componentes coinciden. Puedes escribirlos como (a,a),(b,b),(c,c).";return}
+ if(room===3&&progress.stage===2&&progress.answers.diagonal_pairs.replace(/[()\s,]/g,"").toLowerCase()!=="aabbcc"){$("feedback").textContent="Revisa los pares de la composición cuyas dos componentes coinciden. Puedes escribirlos como (a,a),(b,b),(c,c).";return}
  if(room===3&&progress.stage===3&&progress.answers.double_inverse!=="true"){$("feedback").textContent="Vuelve a comprobar qué ocurre al invertir dos veces una relación.";return}
  if(progress.stage<ts.length-1){progress.stage++;renderActivity();return}
  submitAnswer();
