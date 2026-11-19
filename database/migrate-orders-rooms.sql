@@ -110,11 +110,11 @@ BEGIN
         AND p_answer->>'divides_2_8'='true'
         AND p_answer->>'divides_3_12'='true'
         AND p_answer->>'divides_8_12'='false'
-        AND p_answer->>'divisibility_covers'='1-2,1-3,12-24,2-4,2-6,3-6,4-12,4-8,6-12,8-24'
-        AND p_answer->>'div_minimal'='1'
-        AND p_answer->>'div_maximal'='24'
-        AND p_answer->>'div_least'='1'
-        AND p_answer->>'div_greatest'='24';
+        AND p_answer->>'divisibility_covers'='2-4,2-6,3-6,4-12,4-8,6-12'
+        AND p_answer->>'div_minimal'='2,3'
+        AND p_answer->>'div_maximal'='8,12'
+        AND lower(p_answer->>'div_least')='ninguno'
+        AND lower(p_answer->>'div_greatest')='ninguno';
     WHEN 5 THEN
       v_ok := p_answer->>'poset_minimal'='a,b'
         AND p_answer->>'poset_maximal'='d,e'
