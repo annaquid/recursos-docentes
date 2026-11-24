@@ -217,6 +217,19 @@ function genericAdvance(){
  if(room===5&&progress.stage===0){const n=x=>x.replace(/[{}\\s]/g,"").split(",").filter(Boolean).sort().join(",");if(n(progress.answers.poset_minimal)!=="a,b"||n(progress.answers.poset_maximal)!=="d,e"){$("feedback").textContent="Observa qué elementos no tienen nada por debajo y cuáles no tienen nada por encima.";return}}
  if(room===5&&progress.stage===1){const a=progress.answers;if(a.poset_least!=="false"||a.poset_greatest!=="false"||a.ab_comparable!=="false"){$("feedback").textContent="Respuesta incorrecta. Revisa el diagrama y vuelve a intentarlo.";return}}
  if(room===5&&progress.stage===2){const a=progress.answers,n=x=>x.toLowerCase().replace(/[{}\\s]/g,"").split(",").filter(Boolean).sort().join(",");if(n(a.poset_lower)!=="a,b,c"||n(a.poset_upper)!=="ninguno"||a.poset_inf.toLowerCase()!=="c"||a.poset_sup.toLowerCase()!=="ninguno"){$("feedback").textContent="Para B={d,e}, busca los elementos que están por debajo de ambos y comprueba si existe alguno por encima de ambos.";return}}
+ if(room===6&&progress.stage===0){
+  const normalize=x=>String(x).replace(/[{}\\s]/g,"").split(",").filter(Boolean).join(",");
+  if(normalize(progress.answers.quotients)!=="1,3,1,2"||normalize(progress.answers.remainder_sequence)!=="54,36,18,0"){
+   $("feedback").textContent="Respuesta incorrecta. Revisa las divisiones sucesivas e inténtalo de nuevo.";
+   return;
+  }
+ }
+ if(room===6&&progress.stage===1){
+  if(progress.answers.gcd!=="18"){
+   $("feedback").textContent="Respuesta incorrecta. Comprueba cuál es el último resto distinto de cero.";
+   return;
+  }
+ }
  if(progress.stage<ts.length-1){progress.stage++;renderActivity();return}
  submitAnswer();
 }
