@@ -34,6 +34,15 @@ INSERT INTO public.room_progress(participant_id,room_number,status,score,attempt
 SELECT p.id,9,'locked',0,0,0 FROM public.participants p
 ON CONFLICT (participant_id,room_number) DO NOTHING;
 
+-- Si el participante ya había superado la antigua última sala (8),
+-- dejar disponible la nueva sala 9 sin obligarle a repetir la sala 8.
+UPDATE public.room_progress rp9
+SET status='available',updated_at=now()
+WHERE rp9.room_number=9 AND rp9.status='locked'
+  AND EXISTS (SELECT 1 FROM public.room_progress rp8
+             WHERE rp8.participant_id=rp9.participant_id
+               AND rp8.room_number=8 AND rp8.status='completed');
+
 CREATE OR REPLACE FUNCTION public.submit_room_answer(
   p_participant_id uuid,
   p_token text,
