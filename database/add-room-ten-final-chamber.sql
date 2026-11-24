@@ -162,16 +162,16 @@ BEGIN
         AND p_answer->>'product'='8'
         AND p_answer->>'final_result'='16';
     WHEN 10 THEN
-      v_ok := regexp_replace(COALESCE(p_answer->>'relation_pairs',''), '[[:space:]{}()\[\]]', '', 'g')='1,1,1,2,1,3,1,6,2,2,2,6,3,3,3,6,6,6'
+      v_ok := translate(COALESCE(p_answer->>'relation_pairs',''), ' {}()[]' || chr(9) || chr(10) || chr(13), '')='1,1,1,2,1,3,1,6,2,2,2,6,3,3,3,6,6,6'
         AND p_answer->>'reflexive10'='true'
         AND p_answer->>'symmetric10'='false'
         AND p_answer->>'antisymmetric10'='true'
         AND p_answer->>'transitive10'='true'
-        AND regexp_replace(COALESCE(p_answer->>'hasse_edges',''), '[[:space:]{}()\[\]]', '', 'g')='1,2,1,3,2,6,3,6'
+        AND translate(COALESCE(p_answer->>'hasse_edges',''), ' {}()[]' || chr(9) || chr(10) || chr(13), '')='1,2,1,3,2,6,3,6'
         AND p_answer->>'gcd_2_6'='2'
-        AND regexp_replace(COALESCE(p_answer->>'reduced_congruence',''), '[[:space:]()]', '', 'g') IN ('x≡2mod3','x=2mod3')
+        AND translate(COALESCE(p_answer->>'reduced_congruence',''), ' ()' || chr(9) || chr(10) || chr(13), '') IN ('x≡2mod3','x=2mod3')
         AND p_answer->>'least_solution'='2'
-        AND regexp_replace(COALESCE(p_answer->>'solutions_mod6',''), '[[:space:]{}\[\]]', '', 'g') IN ('2,5','5,2')
+        AND translate(COALESCE(p_answer->>'solutions_mod6',''), ' {}[]' || chr(9) || chr(10) || chr(13), '') IN ('2,5','5,2')
         AND p_answer->>'final_code'='8';
   END CASE;
 
