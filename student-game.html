@@ -160,7 +160,7 @@ function genericReminder(room,stage){
  }
  if(room===3&&stage===1){
   const prev=(k)=>a[k]===undefined?'—':a[k];
-  return '<div class="notice"><p class="tag">Recordatorio · Clases calculadas en la prueba anterior</p><p><strong>[0] =</strong> {'+prev('class_0')+'}</p><p><strong>[1] =</strong> {'+prev('class_1')+'}</p><p><strong>[2] =</strong> {'+prev('class_2')+'}</p><p><strong>[3] =</strong> {'+prev('class_3')+'}</p><p>El conjunto cociente reúne estas clases en un único conjunto.</p></div>';
+  return '<div class="notice"><p class="tag">Recordatorio · Clases calculadas en la prueba anterior</p><p><strong>[0] =</strong> '+prev('class_0')+'</p><p><strong>[1] =</strong> '+prev('class_1')+'</p><p><strong>[2] =</strong> '+prev('class_2')+'</p><p><strong>[3] =</strong> '+prev('class_3')+'</p><p>El conjunto cociente reúne estas clases en un único conjunto.</p></div>';
  }
  if(room===3&&stage===2){
   return '<div class="notice"><p class="tag">Recordatorio · Definición de la segunda relación</p><p><strong>Conjunto:</strong> A={1,2,3,4,5,6,7,8,9,10}.</p><p><strong>Relación:</strong> xRy si y solo si x e y tienen el mismo número de divisores positivos.</p><p>Para calcular las clases, cuenta los divisores positivos de cada elemento.</p></div>';
