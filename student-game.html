@@ -179,7 +179,7 @@ function genericReminder(room,stage){
   return '<div class="notice"><p class="tag">Recordatorio · Diagrama de Hasse'+(stage===2?' y subconjunto de la prueba anterior':' de la prueba anterior')+'</p>'+hasse+(stage===1?'':'')+(stage===2?'<p><strong>Subconjunto:</strong> B={d,e}.</p>':'')+'</div>';
  }
  if(room===6&&stage===1){
-  return '<div class="notice"><p class="tag">Recordatorio · Datos de la prueba anterior</p><p><strong>Algoritmo de Euclides:</strong> calcula el mcd de 252 y 198 mediante divisiones sucesivas.</p><p>Los cocientes son los números que acompañan a cada división; los restos permiten continuar hasta llegar a 0.</p></div>';
+  return '<div class="notice"><p class="tag">Recordatorio · Resultados de la prueba anterior</p><p><strong>Cocientes:</strong> 1, 3, 1, 2.</p><p><strong>Restos:</strong> 54, 36, 18, 0.</p></div>';
  }
  if(room===7&&stage===1){
   return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p><p><strong>mcd(252,198)=18.</strong></p><p>La identidad de Bézout busca enteros x,y tales que 252x+198y=18.</p></div>';
