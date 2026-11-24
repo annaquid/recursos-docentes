@@ -44,7 +44,7 @@ $$;
 DROP TRIGGER IF EXISTS trg_ensure_ten_room_progress ON public.participants;
 CREATE TRIGGER trg_ensure_ten_room_progress
 AFTER INSERT ON public.participants
-FOR EACH ROW EXECUTE FUNCTION public.ensure_ten_room_progress();
+FOR EACH ROW EXECUTE FUNCTION public.ensure_eight_room_progress();
 
 -- Añadir las nuevas salas a participantes que ya existían.
 INSERT INTO public.room_progress(participant_id,room_number,status,score,attempts,hints_used)
