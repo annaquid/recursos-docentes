@@ -103,15 +103,21 @@ BEGIN
         AND p_answer->>'failed_property'='antisymmetric';
     WHEN 3 THEN
       v_ok := p_answer->>'inverse_relation'='a1,b1,b2,c3'
-        AND p_answer->>'composition'='1x,1y,2y,3y';
+        AND p_answer->>'composition'='1x,1y,1z,2y,2z,3y';
     WHEN 4 THEN
       v_ok := p_answer->>'classes'='0,3,6|1,4,7|2,5,8'
         AND p_answer->>'class_count'='3'
         AND p_answer->>'class_of_5'='2,5,8';
     WHEN 5 THEN
-      v_ok := p_answer->>'classes'='-2,4|-1,3|0,2|1'
-        AND p_answer->>'class_count'='4'
-        AND p_answer->>'class_of_3'='-1,3';
+      v_ok := p_answer->>'poset_minimal'='a,b'
+        AND p_answer->>'poset_maximal'='d,e'
+        AND p_answer->>'poset_least'='false'
+        AND p_answer->>'poset_greatest'='false'
+        AND p_answer->>'ab_comparable'='false'
+        AND p_answer->>'poset_lower'='a,b,c'
+        AND p_answer->>'poset_upper'='ninguno'
+        AND p_answer->>'poset_inf'='c'
+        AND p_answer->>'poset_sup'='ninguno';
     WHEN 6 THEN
       v_ok := p_answer->>'least'='1'
         AND p_answer->>'greatest'='12'
