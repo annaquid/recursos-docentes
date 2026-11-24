@@ -28,8 +28,9 @@ tasks[4]=[
  {h:"2. ¿Tiene extremos?",p:"A partir del diagrama, indica si P tiene elemento mínimo y elemento máximo. ¿Son a y b comparables?",f:[["poset_least","¿Tiene mínimo?","select"],["poset_greatest","¿Tiene máximo?","select"],["ab_comparable","¿Son a y b comparables?","select"]],opts:["true","false"]},
  {h:"3. Cotas de un subconjunto",p:"Considera B={d,e}. Determina todas sus cotas inferiores y superiores en P, así como su ínfimo y su supremo. Si no existe alguno, escribe ninguno.",f:[["poset_lower","Cotas inferiores de B","text"],["poset_upper","Cotas superiores de B","text"],["poset_inf","Ínfimo de B","text"],["poset_sup","Supremo de B","text"]]}
 ];
-// Integración de la antigua sala 7 en la sala 6: Bézout y diofántica.
-tasks[5].push(...tasks[6]);
+// Sala 6: conservar el orden de sus dos pruebas originales (Euclides y mcd/mcm),
+// y añadir después Bézout y la ecuación diofántica de la antigua sala 7.
+tasks[5] = [...tasks[5].slice(0,2), ...tasks[6]];
 tasks.splice(6,1);
 
 function fieldHtml(f,opts=[]){return f.map(([k,label,type])=>'<div><label>'+label+'</label>'+(type==="select"?'<select data-key="'+k+'"><option value="">Selecciona</option>'+opts.map(v=>'<option value="'+v+'">'+(v==="true"?"Sí":"No")+'</option>').join("")+'</select>':'<input data-key="'+k+'" type="'+(type==="number"?"number":"text")+'" autocomplete="off">')+'</div>').join("")}
