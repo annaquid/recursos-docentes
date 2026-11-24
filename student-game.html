@@ -84,7 +84,7 @@ function room1Validate(){
   else{room1Stage=3;room1Error=''}
  }else{
   if(!room1Data.diagnosis.equivalence||!room1Data.diagnosis.partial_order)room1Error='Responde las dos preguntas del diagnóstico.';
-  else if(room1Data.diagnosis.equivalence!=="false"||room1Data.diagnosis.partial_order!=="false")room1Error='Revisa las condiciones necesarias: esta relación no es ni de equivalencia ni de orden parcial.';
+  else if(room1Data.diagnosis.equivalence!=="false"||room1Data.diagnosis.partial_order!=="false")room1Error='Respuesta incorrecta. Revisa tu diagnóstico e inténtalo de nuevo.';
   else{room1Error='Diagnóstico correcto. Registrando resultado…';submitAnswer();return}
  }
  renderRoom1();
