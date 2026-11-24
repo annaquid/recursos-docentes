@@ -174,9 +174,27 @@ function genericReminder(room,stage){
  if(room===4&&stage===3){
   return '<div class="notice"><p class="tag">Recordatorio · Conjunto y relación de orden</p><p><strong>Conjunto:</strong> D={2,3,4,6,8,12}.</p><p><strong>Relación de orden:</strong> x⪯y si y solo si x divide a y.</p><p><strong>Subconjunto:</strong> A={4,6}.</p></div>';
  }
- if(room===5&&stage===1){
+ if(room===5&&(stage===1||stage===2)){
   const hasse='<div style="max-width:440px;margin:16px auto;padding:14px;border:1px solid #476057;border-radius:14px;background:#10201d"><p><strong>Conjunto:</strong> P={a,b,c,d,e}</p><svg viewBox="0 0 420 270" role="img" aria-label="Diagrama de Hasse: a y b están por debajo de c, y c está por debajo de d y e" style="width:100%;height:auto"><g stroke="#8bc9a7" stroke-width="3" stroke-linecap="round"><path d="M105 220 L210 135 M315 220 L210 135 M210 135 L105 45 M210 135 L315 45"/></g><g fill="#1d3b30" stroke="#a5e3bd" stroke-width="2"><circle cx="105" cy="220" r="25"/><circle cx="315" cy="220" r="25"/><circle cx="210" cy="135" r="25"/><circle cx="105" cy="45" r="25"/><circle cx="315" cy="45" r="25"/></g><g fill="#edf5ef" font-size="19" font-weight="800" text-anchor="middle" dominant-baseline="central"><text x="105" y="220">a</text><text x="315" y="220">b</text><text x="210" y="135">c</text><text x="105" y="45">d</text><text x="315" y="45">e</text></g></svg><p style="text-align:center;color:#a7b9b0;margin:0;font-size:.85rem">El orden se representa de abajo hacia arriba.</p></div>';
-  return '<div class="notice"><p class="tag">Recordatorio · Diagrama de Hasse de la prueba anterior</p>'+hasse+'</div>';
+  return '<div class="notice"><p class="tag">Recordatorio · Diagrama de Hasse'+(stage===2?' y subconjunto de la prueba anterior':' de la prueba anterior')+'</p>'+hasse+(stage===2?'<p><strong>Subconjunto:</strong> B={d,e}.</p><p>Las cotas inferiores de B están por debajo de ambos elementos; las superiores están por encima de ambos. El ínfimo es la mayor cota inferior y el supremo la menor cota superior, si existen.</p>':'')+'</div>';
+ }
+ if(room===6&&stage===1){
+  return '<div class="notice"><p class="tag">Recordatorio · Datos de la prueba anterior</p><p><strong>Algoritmo de Euclides:</strong> calcula el mcd de 252 y 198 mediante divisiones sucesivas.</p><p>Los cocientes son los números que acompañan a cada división; los restos permiten continuar hasta llegar a 0.</p></div>';
+ }
+ if(room===7&&stage===1){
+  return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p><p><strong>mcd(252,198)=18.</strong></p><p>La identidad de Bézout busca enteros x,y tales que 252x+198y=18.</p></div>';
+ }
+ if(room===8&&stage===1){
+  const x=a.bezout_x===undefined?'—':a.bezout_x,y=a.bezout_y===undefined?'—':a.bezout_y;
+  return '<div class="notice"><p class="tag">Recordatorio · Identidad de Bézout</p><p>252x+198y=18.</p><p><strong>Coeficientes obtenidos:</strong> x='+x+', y='+y+'.</p><p>Para la ecuación diofántica, busca una solución entera que satisfaga 6x−9y=3.</p></div>';
+ }
+ if(room===9&&stage===1){
+  const rem=a.remainder===undefined?'—':a.remainder,pow=a.power===undefined?'—':a.power;
+  return '<div class="notice"><p class="tag">Recordatorio · Cálculos módulo 9</p><p>Trabajamos módulo 9: dos enteros representan la misma clase si tienen el mismo resto al dividir entre 9.</p><p><strong>43 mod 9:</strong> '+rem+' · <strong>7² mod 9:</strong> '+pow+'</p><p>El inverso multiplicativo de 7 es un número que, al multiplicarlo por 7, da un resto 1 módulo 9.</p></div>';
+ }
+ if(room===10&&stage===1){
+  const rep=a.representative===undefined?'—':a.representative,mod=a.reduced_modulus===undefined?'—':a.reduced_modulus;
+  return '<div class="notice"><p class="tag">Recordatorio · Congruencia lineal</p><p>Resuelve 3x≡21 (mod 45). Primero reduce la congruencia dividiendo por el máximo común divisor de 3 y 45, siempre que también divida a 21.</p><p><strong>Menor solución no negativa:</strong> '+rep+' · <strong>Módulo reducido:</strong> '+mod+'</p><p>Las soluciones incongruentes módulo 45 se obtienen a partir de la solución reducida.</p></div>';
  }
  const show=(keys)=>keys.map(k=>{const field=tasks[room-1].flatMap(t=>t.f).find(f=>f[0]===k);if(!field||a[k]===undefined)return '';return '<p><strong>'+field[1]+':</strong> '+a[k]+'</p>'}).join('');
  const relevant={3:['classes'],4:['classes'],5:['covers','minimal','maximal','least','greatest'],6:['quotients','remainder_sequence'],9:['representative','reduced_modulus']};
