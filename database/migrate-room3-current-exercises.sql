@@ -59,7 +59,7 @@ BEGIN
         AND regexp_replace(COALESCE(p_answer->>'quotient_z6',''), '[{}()[:space:]]', '', 'g') IN
           ('0,1,5,2,4,3','0,1,5,3,2,4','1,5,0,2,4,3','1,5,2,4,0,3','2,4,0,1,5,3','3,0,1,5,2,4')
         AND p_answer->>'divisor_class_count'='4'
-        AND regexp_replace(COALESCE(p_answer->>'divisor_quotient',''), '[[:space:]]', '', 'g')='{{1},{2,3,5,7},{4,9},{6,8,10}}';
+        AND regexp_replace(replace(replace(COALESCE(p_answer->>'divisor_quotient',''), '[', '{'), ']', '}'), '[[:space:]]', '', 'g') IN ('{{1},{2,3,5,7},{4,9},{6,8,10}}','{{2,3,5,7},{1},{4,9},{6,8,10}}','{{1},{2,3,5,7},{6,8,10},{4,9}}');
     WHEN 4 THEN
       v_ok := p_answer->>'divides_2_3'='false'
         AND p_answer->>'divides_2_8'='true'
