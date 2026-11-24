@@ -14,13 +14,17 @@ BEGIN
   END LOOP;
 END $migrate$;
 
+-- Eliminar primero los registros de progreso de las salas que ya no existen.
+-- Es necesario hacerlo antes de imponer el CHECK 1..8.
+DELETE FROM public.room_progress WHERE room_number > 8;
+
 ALTER TABLE public.room_progress
   ADD CONSTRAINT room_progress_room_number_check CHECK (room_number BETWEEN 1 AND 8);
 
 ALTER TABLE public.interaction_events
   ADD CONSTRAINT interaction_events_room_number_check CHECK (room_number BETWEEN 1 AND 10);
 
--- El trigger completa los registros 6..10 incluso para participantes creados
+-- El trigger completa los registros 6..8 incluso para participantes creados
 -- por la función join_game_session que originalmente insertaba solo 1..5.
 CREATE OR REPLACE FUNCTION public.ensure_eight_room_progress()
 RETURNS trigger
@@ -46,7 +50,7 @@ FOR EACH ROW EXECUTE FUNCTION public.ensure_ten_room_progress();
 INSERT INTO public.room_progress(participant_id,room_number,status,score,attempts,hints_used)
 SELECT p.id,n,'locked',0,0,0
 FROM public.participants p
-CROSS JOIN generate_series(6,10) AS n
+CROSS JOIN generate_series(6,8) AS n
 ON CONFLICT (participant_id,room_number) DO NOTHING;
 
 -- Se preserva el estado de progreso ya existente en las salas 1..5.
@@ -191,7 +195,7 @@ BEGIN
   RETURN jsonb_build_object('accepted',v_ok,
     'message',CASE WHEN v_ok THEN 'Mecanismo desbloqueado. La siguiente sala está disponible.' ELSE 'La respuesta no es correcta. Revisa el procedimiento e inténtalo de nuevo.' END,
     'score',CASE WHEN v_ok THEN v_score ELSE 0 END,
-    'next_room',CASE WHEN v_ok AND p_room_number<10 THEN p_room_number+1 ELSE NULL END);
+    'next_room',CASE WHEN v_ok AND p_room_number<8 THEN p_room_number+1 ELSE NULL END);
 END;
 $$;
 
