@@ -212,7 +212,7 @@ function genericReminder(room,stage){
  }
  if(room===8&&stage===1){
   const rem=a.remainder===undefined?'—':a.remainder,pow=a.power===undefined?'—':a.power;
-  return '<div class="notice"><p class="tag">Recordatorio · Cálculos módulo 9</p><p>Trabajamos módulo 9: dos enteros representan la misma clase si tienen el mismo resto al dividir entre 9.</p><p><strong>43 mod 9:</strong> '+rem+' · <strong>7² mod 9:</strong> '+pow+'</p><p>El inverso multiplicativo de 7 es un número que, al multiplicarlo por 7, da un resto 1 módulo 9.</p></div>';
+  return '<div class="notice"><p class="tag">Recordatorio · Operaciones módulo 9</p><p>Dos números son congruentes módulo 9 si su diferencia es múltiplo de 9.</p><div style="display:grid;gap:10px;margin:12px 0"><div><strong>Resto de 43</strong><p>43 = 9·4 + '+rem+' &nbsp;⇒&nbsp; 43 ≡ '+rem+' (mod 9)</p></div><div><strong>Cuadrado de 7</strong><p>7² = 49 = 9·5 + '+pow+' &nbsp;⇒&nbsp; 7² ≡ '+pow+' (mod 9)</p></div></div><p><strong>Inverso multiplicativo:</strong> buscamos un número que, al multiplicarlo por 7, sea congruente con 1 módulo 9.</p></div>';
  }
  if(room===9&&stage===1){
   const rep=a.representative===undefined?'—':a.representative,mod=a.reduced_modulus===undefined?'—':a.reduced_modulus;
