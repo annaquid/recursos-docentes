@@ -211,8 +211,7 @@ function genericReminder(room,stage){
   return '<div class="notice"><p class="tag">Recordatorio · Identidad de Bézout</p><p>252x+198y=18.</p><p><strong>Coeficientes obtenidos:</strong> x='+x+', y='+y+'.</p><p>Ahora resuelve la ecuación diofántica 6x−9y=3.</p></div>';
  }
  if(room===8&&stage===1){
-  const rem=a.remainder===undefined?'—':a.remainder,pow=a.power===undefined?'—':a.power;
-  return '<div class="notice"><p class="tag">Recordatorio · Operaciones módulo 9</p><p>Dos números son congruentes módulo 9 si su diferencia es múltiplo de 9.</p><div style="display:grid;gap:10px;margin:12px 0"><div><strong>Resto de 43</strong><p>43 = 9·4 + '+rem+' &nbsp;⇒&nbsp; 43 ≡ '+rem+' (mod 9)</p></div><div><strong>Cuadrado de 7</strong><p>7² = 49 = 9·5 + '+pow+' &nbsp;⇒&nbsp; 7² ≡ '+pow+' (mod 9)</p></div></div><p><strong>Inverso multiplicativo:</strong> buscamos un número que, al multiplicarlo por 7, sea congruente con 1 módulo 9.</p></div>';
+  return '<div class="notice"><p class="tag">Recordatorio · Inverso multiplicativo</p><p>Un número tiene inverso módulo n si su máximo común divisor con n es 1.</p><p>Como mcd(7,9)=1, el inverso de 7 módulo 9 existe.</p><p>Busca un entero k, entre 0 y 8, que cumpla <strong>7k ≡ 1 (mod 9)</strong>.</p></div>';
  }
  if(room===9&&stage===1){
   const rep=a.representative===undefined?'—':a.representative,mod=a.reduced_modulus===undefined?'—':a.reduced_modulus;
