@@ -122,9 +122,7 @@ BEGIN
       v_ok := regexp_replace(COALESCE(p_answer->>'quotients',''), '[[:space:]]', '', 'g')='1,3,1,2'
         AND regexp_replace(COALESCE(p_answer->>'remainder_sequence',''), '[[:space:]]', '', 'g')='54,36,18,0'
         AND p_answer->>'gcd'='18'
-        AND p_answer->>'lcm'='2772';
-    WHEN 6 THEN
-      v_ok := v_ok
+        AND p_answer->>'lcm'='2772'
         AND p_answer->>'bezout_x'='4'
         AND p_answer->>'bezout_y'='-5'
         AND p_answer->>'dio_x'='2'
