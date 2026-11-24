@@ -78,28 +78,33 @@ BEGIN
         AND lower(trim(COALESCE(p_answer->>'subset_inf','')))='2'
         AND lower(trim(COALESCE(p_answer->>'subset_sup','')))='12';
     WHEN 5 THEN
-      v_ok := p_answer->>'classes'='-2,4|-1,3|0,2|1'
-        AND p_answer->>'class_count'='4'
-        AND p_answer->>'class_of_3'='-1,3';
+      v_ok := p_answer->>'poset_minimal'='a,b'
+        AND p_answer->>'poset_maximal'='d,e'
+        AND p_answer->>'poset_least'='false'
+        AND p_answer->>'poset_greatest'='false'
+        AND p_answer->>'ab_comparable'='false'
+        AND p_answer->>'poset_lower'='a,b,c'
+        AND lower(trim(COALESCE(p_answer->>'poset_upper','')))='ninguno'
+        AND lower(trim(COALESCE(p_answer->>'poset_inf','')))='c'
+        AND lower(trim(COALESCE(p_answer->>'poset_sup','')))='ninguno;
     WHEN 6 THEN
-      v_ok := p_answer->>'least'='1'
-        AND p_answer->>'greatest'='12'
-        AND p_answer->>'minimal'='1'
-        AND p_answer->>'maximal'='12'
-        AND p_answer->>'covers'='1-2,1-3,2-4,2-6,3-6,4-12,6-12';
-    WHEN 7 THEN
       v_ok := p_answer->>'gcd'='18'
         AND p_answer->>'quotients'='1,3,1,2'
         AND p_answer->>'remainder_sequence'='54,36,18,0';
-    WHEN 8 THEN
+    WHEN 7 THEN
       v_ok := p_answer->>'bezout_x'='4'
         AND p_answer->>'bezout_y'='-5'
         AND p_answer->>'dio_x'='2'
         AND p_answer->>'dio_y'='1';
-    WHEN 9 THEN
+    WHEN 8 THEN
       v_ok := p_answer->>'remainder'='7'
-        AND p_answer->>'inverse'='4'
-        AND p_answer->>'power'='4';
+        AND p_answer->>'power'='4'
+        AND p_answer->>'inverse'='4';
+    WHEN 9 THEN
+      v_ok := p_answer->>'representative'='7'
+        AND p_answer->>'reduced_modulus'='15'
+        AND p_answer->>'solutions'='7,22,37'
+        AND p_answer->>'count'='3';
     WHEN 10 THEN
       v_ok := p_answer->>'representative'='7'
         AND p_answer->>'reduced_modulus'='15'
