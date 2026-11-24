@@ -119,11 +119,10 @@ BEGIN
         AND p_answer->>'poset_inf'='c'
         AND p_answer->>'poset_sup'='ninguno';
     WHEN 6 THEN
-      v_ok := p_answer->>'least'='1'
-        AND p_answer->>'greatest'='12'
-        AND p_answer->>'minimal'='1'
-        AND p_answer->>'maximal'='12'
-        AND p_answer->>'covers'='1-2,1-3,2-4,2-6,3-6,4-12,6-12';
+      v_ok := p_answer->>'quotients'='1,3,1,2'
+        AND p_answer->>'remainder_sequence'='54,36,18,0'
+        AND p_answer->>'gcd'='18'
+        AND p_answer->>'lcm'='2772';
     WHEN 7 THEN
       v_ok := p_answer->>'gcd'='18'
         AND p_answer->>'quotients'='1,3,1,2'
