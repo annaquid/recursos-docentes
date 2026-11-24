@@ -11,7 +11,7 @@
 const db=window.supabase.createClient("https://doxaerjjoeskaybqgdzz.supabase.co","sb_publishable_roB89ujZfQ62q3lZ9Tkhtw_8ZXDymtP");
 const pid=sessionStorage.getItem("refugio_participant_id"),token=sessionStorage.getItem("refugio_token"),savedAlias=sessionStorage.getItem("refugio_alias");if(!pid||!token)location.href="join.html";
 const $=id=>document.getElementById(id);let state=null,selected=1,remaining=3600,activityKey='',roomTransitionActive=false,room1Stage=0,room1Data={pairs:[],domain:[],range:[],matrix:[],properties:{},diagnosis:{}},room1Error='',room1Hint=false,genericProgress={},room2Stage=0,room2Data={rowGroups:[],properties:{},counts:{},diagnosis:{}};
-const titles=["El registro de pares","El sistema de propiedades","La cámara de equivalencias","La torre de clasificación","La torre de clasificación","El mecanismo de Euclides","La cámara de los residuos","La última congruencia"];
+const titles=["El registro de pares","El sistema de propiedades","La cámara de equivalencias","La torre de clasificación","La torre de clasificación","El mecanismo de Euclides","La cámara de los residuos","La última congruencia","El anillo de los residuos"];
 const tasks=[
 [{h:"1. Reconstrucción de la relación",p:"En A={1,2,3}, se ha registrado R={(1,1),(1,2),(2,1),(2,2),(3,3)}. Construye la matriz de R usando el orden 1,2,3 en filas y columnas.",f:[["matrix","Matriz (filas separadas por |, por ejemplo 110|010|001)","text"]]},{h:"2. Dominio y recorrido",p:"A partir de los pares de R, determina el dominio y el recorrido. Escribe los elementos ordenados y separados por comas.",f:[["domain","Dominio","text"],["range","Recorrido","text"]]}],
 [{h:"Sala 02 · El sistema de propiedades",p:"Matriz sobre A={1,2,3,4}: 1100|1100|0011|0011.",f:[["reflexive","Reflexiva","select"],["symmetric","Simétrica","select"],["antisymmetric","Antisimétrica","select"],["transitive","Transitiva","select"]],opts:["true","false"]},{h:"Diagnóstico",p:"Selecciona la propiedad que impide que la relación sea un orden parcial.",f:[["failed_property","Propiedad","select"]],opts:["reflexive","symmetric","antisymmetric","transitive"]}],
@@ -41,10 +41,16 @@ tasks[7]=[
  {h:"1. Cálculo de restos",p:"Calcula 43 módulo 9 y 7² módulo 9.",f:[["remainder","43 mod 9","number"],["power","7² mod 9","number"]]},
  {h:"2. Inverso multiplicativo",p:"Encuentra el inverso de 7 módulo 9 y comprueba que su producto con 7 es congruente con 1.",f:[["inverse","Inverso de 7 mod 9","number"]]}
 ];
+tasks[8]=[
+ {h:"1. ¿Existe el inverso?",p:"En ℤ₁₈, determina si existe el inverso multiplicativo de 5. Justifica tu respuesta usando el máximo común divisor de 5 y 18.",f:[["inverse_exists","¿Existe el inverso de 5 en ℤ₁₈?","select"]],opts:["true","false"]},
+ {h:"2. Calcula el inverso",p:"Calcula el inverso multiplicativo de 5 en ℤ₁₈. Introduce su representante entre 0 y 17.",f:[["inverse5","Inverso de 5 módulo 18","number"]]},
+ {h:"3. Producto en ℤ₁₈",p:"Calcula 4·5⁻¹ en ℤ₁₈ y expresa el resultado entre 0 y 17.",f:[["product","4·5⁻¹ módulo 18","number"]]},
+ {h:"4. Resta final",p:"Calcula 6−4·5⁻¹ en ℤ₁₈ y expresa el resultado entre 0 y 17.",f:[["final_result","Resultado final en ℤ₁₈","number"]]}
+];
 
 function fieldHtml(f,opts=[]){return f.map(([k,label,type])=>'<div><label>'+label+'</label>'+(type==="select"?'<select data-key="'+k+'"><option value="">Selecciona</option>'+opts.map(v=>'<option value="'+v+'">'+(v==="true"?"Sí":"No")+'</option>').join("")+'</select>':'<input data-key="'+k+'" type="'+(type==="number"?"number":"text")+'" autocomplete="off">')+'</div>').join("")}
 function fmt(n){n=Math.max(0,Math.floor(n));return String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0")}
-function roomMap(){const el=$("rooms");el.innerHTML="";(state.rooms||[]).forEach(r=>{const b=document.createElement("button");b.className="room"+(selected===r.room_number?" selected":"");b.disabled=r.status==="locked";b.innerHTML="<b>Sala "+r.room_number+"</b><small>"+({locked:"Bloqueada",available:"Disponible",in_progress:"En curso",completed:"Superada"}[r.status]||r.status)+"</small>";b.onclick=()=>{selected=r.room_number;roomMap();renderActivity()};el.append(b)});const done=(state.rooms||[]).filter(x=>x.status==="completed").length;$("overallProgress").style.width=(done/8*100)+"%"}
+function roomMap(){const el=$("rooms");el.innerHTML="";(state.rooms||[]).forEach(r=>{const b=document.createElement("button");b.className="room"+(selected===r.room_number?" selected":"");b.disabled=r.status==="locked";b.innerHTML="<b>Sala "+r.room_number+"</b><small>"+({locked:"Bloqueada",available:"Disponible",in_progress:"En curso",completed:"Superada"}[r.status]||r.status)+"</small>";b.onclick=()=>{selected=r.room_number;roomMap();renderActivity()};el.append(b)});const done=(state.rooms||[]).filter(x=>x.status==="completed").length;$("overallProgress").style.width=(done/9*100)+"%"}
 function room1Progress(){return '<div class="mission-step">'+[0,1,2,3].map((n)=>'<span class="step-dot '+(room1Stage===n?'active':room1Stage>n?'done':'')+'">'+(n+1)+'</span>').join('')+'<span class="muted">Cuatro pruebas · una relación</span></div>'}
 function toggleChoice(list,value){const i=list.indexOf(value);if(i>=0)list.splice(i,1);else list.push(value)}
 function room1Feedback(){return room1Error?'<div class="hint" role="status">'+room1Error+'</div>':''}
@@ -160,6 +166,9 @@ function room2Validate(){
 function genericState(room){if(!genericProgress[room])genericProgress[room]={stage:0,answers:{}};return genericProgress[room]}
 function genericReminder(room,stage){
  if(stage===0)return '';
+ if(room===9&&stage===1){return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p><p>Para que exista el inverso de 5 en ℤ₁₈, debe cumplirse mcd(5,18)=1.</p></div>'}
+ if(room===9&&stage===2){return '<div class="notice"><p class="tag">Recordatorio · Inverso multiplicativo</p><p>En ℤ₁₈, 5⁻¹≡11 (mod 18), porque 5·11=55≡1 (mod 18).</p></div>'}
+ if(room===9&&stage===3){return '<div class="notice"><p class="tag">Recordatorio · Producto anterior</p><p>El producto 4·5⁻¹ es congruente con 8 módulo 18.</p></div>'}
  if(room===7&&stage===2){
   return '<div class="notice"><p class="tag">Recordatorio · Congruencia original y reducida</p><p><strong>Congruencia original:</strong> 3x≡21 (mod 45).</p><p><strong>Congruencia reducida:</strong> x≡7 (mod 15).</p><p>La congruencia reducida tiene una solución módulo 15. Las soluciones de la original se obtienen considerando las clases módulo 45.</p></div>';
  }
@@ -260,6 +269,10 @@ function genericAdvance(){
  if(room===7&&progress.stage===2){const n=x=>x.replace(/[{}\\s]/g,"").split(",").filter(Boolean).join(",");if(progress.answers.reduced_solution!=="7"||n(progress.answers.solutions)!=="7,22,37"){$("feedback").textContent="Revisa la solución de la congruencia reducida y cómo se recuperan las soluciones módulo 45.";return}}
  if(room===8&&progress.stage===0){if(progress.answers.remainder!=="7"||progress.answers.power!=="4"){$("feedback").textContent="Revisa los restos y la potencia módulo 9.";return}}
  if(room===8&&progress.stage===1){if(progress.answers.inverse!=="4"){$("feedback").textContent="Comprueba qué número multiplicado por 7 deja resto 1 al dividir entre 9.";return}}
+ if(room===9&&progress.stage===0){if(progress.answers.inverse_exists!=="true"){$("feedback").textContent="Usa el criterio de existencia del inverso multiplicativo en ℤₙ.";return}}
+ if(room===9&&progress.stage===1){if(progress.answers.inverse5!=="11"){$("feedback").textContent="Busca un número que multiplicado por 5 sea congruente con 1 módulo 18.";return}}
+ if(room===9&&progress.stage===2){if(progress.answers.product!=="8"){$("feedback").textContent="Multiplica por el inverso y reduce el resultado módulo 18.";return}}
+ if(room===9&&progress.stage===3){if(progress.answers.final_result!=="16"){$("feedback").textContent="Realiza la resta en ℤ₁₈ y expresa el resultado entre 0 y 17.";return}}
  if(progress.stage<ts.length-1){progress.stage++;renderActivity();return}
  submitAnswer();
 }
