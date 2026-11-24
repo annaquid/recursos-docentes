@@ -156,6 +156,9 @@ function room2Validate(){
 function genericState(room){if(!genericProgress[room])genericProgress[room]={stage:0,answers:{}};return genericProgress[room]}
 function genericReminder(room,stage){
  if(stage===0)return '';
+ if(room===7&&stage===2){
+  return '<div class="notice"><p class="tag">Recordatorio · Congruencia original y reducida</p><p><strong>Congruencia original:</strong> 3x≡21 (mod 45).</p><p><strong>Congruencia reducida:</strong> x≡7 (mod 15).</p><p>La congruencia reducida tiene una solución módulo 15. Las soluciones de la original se obtienen considerando las clases módulo 45.</p></div>';
+ }
  const a=genericState(room).answers;
  if(room===2&&stage===1){
   const props=['reflexive','symmetric','antisymmetric','transitive'];
