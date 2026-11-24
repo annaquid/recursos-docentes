@@ -150,9 +150,12 @@ BEGIN
         AND p_answer->>'dio_x'='2'
         AND p_answer->>'dio_y'='1';
     WHEN 7 THEN
-      v_ok := p_answer->>'remainder'='7'
-        AND p_answer->>'inverse'='4'
-        AND p_answer->>'power'='4';
+      v_ok := p_answer->>'solvable'='true'
+        AND p_answer->>'reduced_a'='1'
+        AND p_answer->>'reduced_b'='7'
+        AND p_answer->>'reduced_modulus'='15'
+        AND p_answer->>'reduced_solution'='7'
+        AND regexp_replace(COALESCE(p_answer->>'solutions',''), '[[:space:]]', '', 'g')='7,22,37';
     WHEN 8 THEN
       v_ok := p_answer->>'representative'='7'
         AND p_answer->>'reduced_modulus'='15'
