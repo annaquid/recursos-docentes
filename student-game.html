@@ -37,6 +37,10 @@ tasks[5] = [
 
 ];
 tasks.splice(6,1);
+tasks[7]=[
+ {h:"1. Cálculo de restos",p:"Calcula 43 módulo 9 y 7² módulo 9.",f:[["remainder","43 mod 9","number"],["power","7² mod 9","number"]]},
+ {h:"2. Inverso multiplicativo",p:"Encuentra el inverso de 7 módulo 9 y comprueba que su producto con 7 es congruente con 1.",f:[["inverse","Inverso de 7 mod 9","number"]]}
+];
 
 function fieldHtml(f,opts=[]){return f.map(([k,label,type])=>'<div><label>'+label+'</label>'+(type==="select"?'<select data-key="'+k+'"><option value="">Selecciona</option>'+opts.map(v=>'<option value="'+v+'">'+(v==="true"?"Sí":"No")+'</option>').join("")+'</select>':'<input data-key="'+k+'" type="'+(type==="number"?"number":"text")+'" autocomplete="off">')+'</div>').join("")}
 function fmt(n){n=Math.max(0,Math.floor(n));return String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0")}
@@ -254,6 +258,8 @@ function genericAdvance(){
  if(room===7&&progress.stage===0){if(progress.answers.solvable!=="true"){$("feedback").textContent="Comprueba el criterio de existencia de soluciones de una congruencia lineal.";return}}
  if(room===7&&progress.stage===1){if(progress.answers.reduced_a!=="1"||progress.answers.reduced_b!=="7"||progress.answers.reduced_modulus!=="15"){$("feedback").textContent="Revisa la división de todos los términos por el máximo común divisor.";return}}
  if(room===7&&progress.stage===2){const n=x=>x.replace(/[{}\\s]/g,"").split(",").filter(Boolean).join(",");if(progress.answers.reduced_solution!=="7"||n(progress.answers.solutions)!=="7,22,37"){$("feedback").textContent="Revisa la solución de la congruencia reducida y cómo se recuperan las soluciones módulo 45.";return}}
+ if(room===8&&progress.stage===0){if(progress.answers.remainder!=="7"||progress.answers.power!=="4"){$("feedback").textContent="Revisa los restos y la potencia módulo 9.";return}}
+ if(room===8&&progress.stage===1){if(progress.answers.inverse!=="4"){$("feedback").textContent="Comprueba qué número multiplicado por 7 deja resto 1 al dividir entre 9.";return}}
  if(progress.stage<ts.length-1){progress.stage++;renderActivity();return}
  submitAnswer();
 }
