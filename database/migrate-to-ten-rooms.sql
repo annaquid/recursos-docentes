@@ -119,23 +119,24 @@ BEGIN
         AND p_answer->>'poset_inf'='c'
         AND p_answer->>'poset_sup'='ninguno';
     WHEN 6 THEN
-      v_ok := p_answer->>'quotients'='1,3,1,2'
-        AND p_answer->>'remainder_sequence'='54,36,18,0'
+      v_ok := regexp_replace(COALESCE(p_answer->>'quotients',''), '[[:space:]]', '', 'g')='1,3,1,2'
+        AND regexp_replace(COALESCE(p_answer->>'remainder_sequence',''), '[[:space:]]', '', 'g')='54,36,18,0'
         AND p_answer->>'gcd'='18'
         AND p_answer->>'lcm'='2772';
     WHEN 7 THEN
-      v_ok := p_answer->>'gcd'='18'
-        AND p_answer->>'quotients'='1,3,1,2'
-        AND p_answer->>'remainder_sequence'='54,36,18,0';
-    WHEN 8 THEN
       v_ok := p_answer->>'bezout_x'='4'
         AND p_answer->>'bezout_y'='-5'
         AND p_answer->>'dio_x'='2'
         AND p_answer->>'dio_y'='1';
-    WHEN 9 THEN
+    WHEN 8 THEN
       v_ok := p_answer->>'remainder'='7'
         AND p_answer->>'inverse'='4'
         AND p_answer->>'power'='4';
+    WHEN 9 THEN
+      v_ok := p_answer->>'representative'='7'
+        AND p_answer->>'reduced_modulus'='15'
+        AND regexp_replace(COALESCE(p_answer->>'solutions',''), '[[:space:]]', '', 'g')='7,22,37'
+        AND p_answer->>'count'='3';
     WHEN 10 THEN
       v_ok := p_answer->>'representative'='7'
         AND p_answer->>'reduced_modulus'='15'
