@@ -48,11 +48,10 @@ tasks[8]=[
  {h:"4. Resta final",p:"Calcula 6−4·5⁻¹ en ℤ₁₈ y expresa el resultado entre 0 y 17.",f:[["final_result","Resultado final en ℤ₁₈","number"]]}
 ];
 tasks[9]=[
- {h:"1. La relación en ℤ₈",p:"En ℤ₈ se define xRy ⇔ x=y o y≡4x+2 (mod 8). Escribe todos los pares (x,y) de R, con x,y∈{0,1,...,7}, ordenados por x y después por y, separados por comas.",f:[["relation_pairs","Pares de la relación R","text"]]},
- {h:"2. Analiza las propiedades",p:"Para la relación R definida en ℤ₈, indica si es reflexiva, simétrica, antisimétrica y transitiva.",f:[["reflexive10","Reflexiva","select"],["symmetric10","Simétrica","select"],["antisymmetric10","Antisimétrica","select"],["transitive10","Transitiva","select"]],opts:["true","false"]},
+ {h:"1. La relación en ℤ₆",p:"En ℤ₆={0,1,2,3,4,5} se define xRy ⇔ x=y o y≡2x (mod 6). Escribe todos los pares (x,y) de R, con x,y∈ℤ₆, ordenados por x y después por y, separados por comas.",f:[["relation_pairs","Pares de la relación R","text"]]},
+ {h:"2. Analiza las propiedades",p:"Para la relación R definida en ℤ₆, indica si es reflexiva, simétrica, antisimétrica y transitiva.",f:[["reflexive10","Reflexiva","select"],["symmetric10","Simétrica","select"],["antisymmetric10","Antisimétrica","select"],["transitive10","Transitiva","select"]],opts:["true","false"]},
  {h:"3. Completa la relación",p:"Añade a R el número mínimo de pares necesarios para que sea una relación de orden. Escribe únicamente los pares nuevos, ordenados por x y después por y.",f:[["added_pairs","Pares que hay que añadir","text"]]},
- {h:"4. Diagrama de Hasse",p:"Escribe las conexiones del diagrama de Hasse de la relación de orden obtenida, ordenadas por x y después por y. Incluye solo pares xRy sin ningún elemento intermedio.",f:[["hasse_edges","Conexiones del diagrama de Hasse","text"]]},
- {h:"5. Operación en ℤ₁₈",p:"Calcula 6−4·5⁻¹ en ℤ₁₈. Introduce el resultado como representante entre 0 y 17.",f:[["final_result","Resultado de 6−4·5⁻¹ en ℤ₁₈","number"]]}
+ {h:"4. Diagrama de Hasse",p:"Escribe las conexiones del diagrama de Hasse de la relación de orden obtenida, ordenadas por x y después por y. Incluye solo pares xRy sin ningún elemento intermedio.",f:[["hasse_edges","Conexiones del diagrama de Hasse","text"]]}
 ];
 
 function fieldHtml(f,opts=[]){return f.map(([k,label,type])=>'<div><label>'+label+'</label>'+(type==="select"?'<select data-key="'+k+'"><option value="">Selecciona</option>'+opts.map(v=>'<option value="'+v+'">'+(v==="true"?"Sí":"No")+'</option>').join("")+'</select>':'<input data-key="'+k+'" type="'+(type==="number"?"number":"text")+'" autocomplete="off">')+'</div>').join("")}
@@ -176,10 +175,10 @@ function genericReminder(room,stage){
  if(room===9&&stage===1){return '<div class="notice"><p class="tag">Recordatorio · Prueba anterior</p><p>Para que exista el inverso de 5 en ℤ₁₈, debe cumplirse mcd(5,18)=1.</p></div>'}
  if(room===9&&stage===2){return '<div class="notice"><p class="tag">Recordatorio · Inverso multiplicativo</p><p>En ℤ₁₈, 5⁻¹≡11 (mod 18), porque 5·11=55≡1 (mod 18).</p></div>'}
  if(room===9&&stage===3){return '<div class="notice"><p class="tag">Recordatorio · Producto anterior</p><p>El producto 4·5⁻¹ es congruente con 8 módulo 18.</p></div>'}
- if(room===10&&stage===1){const a=genericState(room).answers;return '<div class="notice"><p class="tag">Recordatorio · Relación en ℤ₈</p><p>La relación se define por xRy ⇔ x=y o y=4x+2 (mod 8).</p><p><strong>Pares obtenidos:</strong> '+a.relation_pairs+'</p></div>'}
+ if(room===10&&stage===1){const a=genericState(room).answers;return '<div class="notice"><p class="tag">Recordatorio · Relación en ℤ₆</p><p>La relación se define por xRy ⇔ x=y o y=2x (mod 6).</p><p><strong>Pares obtenidos:</strong> '+a.relation_pairs+'</p></div>'}
  if(room===10&&stage===2){const a=genericState(room).answers;return '<div class="notice"><p class="tag">Recordatorio · Propiedades de R</p><p>Reflexiva: '+(a.reflexive10==='true'?'Sí':'No')+' · Simétrica: '+(a.symmetric10==='true'?'Sí':'No')+' · Antisimétrica: '+(a.antisymmetric10==='true'?'Sí':'No')+' · Transitiva: '+(a.transitive10==='true'?'Sí':'No')+'</p></div>'}
  if(room===10&&stage===3){const a=genericState(room).answers;return '<div class="notice"><p class="tag">Recordatorio · Pares añadidos</p><p>Pares incorporados: '+a.added_pairs+'</p><p>Al añadir pares, comprueba que la relación sea transitiva y siga siendo antisimétrica.</p></div>'}
- if(room===10&&stage===4){const a=genericState(room).answers;return '<div class="notice"><p class="tag">Recordatorio · Diagrama de Hasse</p><p>Conexiones obtenidas: '+a.hasse_edges+'</p><p>Ahora calcula la operación en ℤ₁₈: 6−4·5⁻¹.</p></div>'}
+ if(room===10&&stage===4){const a=genericState(room).answers;return '<div class="notice"><p class="tag">Recordatorio · Diagrama de Hasse</p><p>Pares añadidos para completar el orden: '+a.added_pairs+'</p><p>Comprueba que las conexiones del diagrama son exactamente las relaciones de cubierta.</p></div>'}
  if(room===7&&stage===2){
   return '<div class="notice"><p class="tag">Recordatorio · Congruencia original y reducida</p><p><strong>Congruencia original:</strong> 3x≡21 (mod 45).</p><p><strong>Congruencia reducida:</strong> x≡7 (mod 15).</p><p>La congruencia reducida tiene una solución módulo 15. Las soluciones de la original se obtienen considerando las clases módulo 45.</p></div>';
  }
@@ -283,11 +282,11 @@ function genericAdvance(){
  if(room===9&&progress.stage===1){if(progress.answers.inverse5!=="11"){$("feedback").textContent="Busca un número que multiplicado por 5 sea congruente con 1 módulo 18.";return}}
  if(room===9&&progress.stage===2){if(progress.answers.product!=="8"){$("feedback").textContent="Multiplica por el inverso y reduce el resultado módulo 18.";return}}
  if(room===9&&progress.stage===3){if(progress.answers.final_result!=="16"){$("feedback").textContent="Realiza la resta en ℤ₁₈ y expresa el resultado entre 0 y 17.";return}}
- if(room===10&&progress.stage===0){const n=progress.answers.relation_pairs.toLowerCase().replace(/[\\s{}\\[\\]()]/g,"");if(n!=="0,0,0,2,1,1,1,6,2,2,3,3,3,6,4,2,4,4,5,5,5,6,6,2,6,6,7,6,7,7"){$("feedback").textContent="Calcula y=4x+2 módulo 8 para cada x, añade también todos los pares (x,x) y ordénalos por x.";return}}
+ if(room===10&&progress.stage===0){const n=progress.answers.relation_pairs.toLowerCase().replace(/[\\s{}\\[\\]()]/g,"");if(n!=="0,0,1,1,1,2,2,2,2,4,3,0,3,3,4,2,4,4,5,4,5,5"){$("feedback").textContent="Calcula y=2x módulo 6 para cada x, añade también todos los pares (x,x) y ordénalos por x.";return}}
  if(room===10&&progress.stage===1){const a=progress.answers;if(a.reflexive10!=="true"||a.symmetric10!=="false"||a.antisymmetric10!=="true"||a.transitive10!=="false"){$("feedback").textContent="Comprueba las cuatro propiedades en ℤ₈. Busca una cadena xRy y yRz para comprobar la transitividad.";return}}
- if(room===10&&progress.stage===2){const n=progress.answers.added_pairs.toLowerCase().replace(/[\\s{}\\[\\]()]/g,"");if(n!=="1,2,3,2,5,2,7,2"){$("feedback").textContent="Comprueba qué pares faltan para que toda cadena xRy, yRz tenga también xRz.";return}}
- if(room===10&&progress.stage===3){const n=progress.answers.hasse_edges.toLowerCase().replace(/[\\s{}\\[\\]()]/g,"");if(n!=="0,2,1,6,3,6,4,2,5,6,6,2,7,6"){$("feedback").textContent="En el diagrama de Hasse conserva únicamente las conexiones sin elementos intermedios y ordénalas por x.";return}}
- if(room===10&&progress.stage===4){if(progress.answers.final_result!=="16"){$("feedback").textContent="Calcula primero el inverso de 5 en ℤ₁₈ y después realiza la resta módulo 18.";return}}
+ if(room===10&&progress.stage===2){const n=progress.answers.added_pairs.toLowerCase().replace(/[\\s{}\\[\\]()]/g,"");if(n!=="1,4"){$("feedback").textContent="Comprueba qué par falta para que la cadena 1R2 y 2R4 también cumpla 1R4.";return}}
+ if(room===10&&progress.stage===3){const n=progress.answers.hasse_edges.toLowerCase().replace(/[\\s{}\\[\\]()]/g,"");if(n!=="1,2,2,4,3,0,5,4"){$("feedback").textContent="En el diagrama de Hasse conserva únicamente las conexiones sin elementos intermedios: (1,2), (2,4), (3,0) y (5,4).";return}}
+ 
  if(progress.stage<ts.length-1){progress.stage++;renderActivity();return}
  submitAnswer();
 }
