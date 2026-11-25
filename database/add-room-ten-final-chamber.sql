@@ -170,9 +170,9 @@ BEGIN
         AND p_answer->>'reflexive10'='true'
         AND p_answer->>'symmetric10'='false'
         AND p_answer->>'antisymmetric10'='true'
-        AND p_answer->>'transitive10'='true'
-        AND translate(COALESCE(p_answer->>'added_pairs',''), ' {}()[]' || chr(9) || chr(10) || chr(13), '') IN ('','ninguno','ninguna')
-        AND translate(COALESCE(p_answer->>'hasse_edges',''), ' {}()[]' || chr(9) || chr(10) || chr(13), '')='0,2,1,6,3,6,4,2,5,6,7,6'
+        AND p_answer->>'transitive10'='false'
+        AND translate(COALESCE(p_answer->>'added_pairs',''), ' {}()[]' || chr(9) || chr(10) || chr(13), '')='1,2,3,2,5,2,7,2'
+        AND translate(COALESCE(p_answer->>'hasse_edges',''), ' {}()[]' || chr(9) || chr(10) || chr(13), '')='0,2,1,6,3,6,4,2,5,6,6,2,7,6'
         AND p_answer->>'final_result'='16';
   END CASE;
 
