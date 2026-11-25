@@ -114,13 +114,13 @@ BEGIN
         AND p_answer->>'product'='8'
         AND p_answer->>'final_result'='16';
     WHEN 10 THEN
-      v_ok := translate(COALESCE(p_answer->>'relation_pairs',''), ' {}()[]' || chr(9) || chr(10) || chr(13), '')='0,0,0,1,1,1,1,2,2,2,3,3,3,4,4,4,5,5'
+      v_ok := translate(COALESCE(p_answer->>'relation_pairs',''), ' {}()[]' || chr(9) || chr(10) || chr(13), '')='0,0,0,2,1,0,1,1,2,2,2,4,3,2,3,3,4,0,4,4,5,4,5,5'
         AND p_answer->>'reflexive10'='true'
         AND p_answer->>'symmetric10'='false'
         AND p_answer->>'antisymmetric10'='true'
         AND p_answer->>'transitive10'='false'
-        AND translate(COALESCE(p_answer->>'added_pairs',''), ' {}()[]' || chr(9) || chr(10) || chr(13), '')='0,2'
-        AND translate(COALESCE(p_answer->>'hasse_edges',''), ' {}()[]' || chr(9) || chr(10) || chr(13), '')='0,1,1,2,3,4';
+        AND translate(COALESCE(p_answer->>'added_pairs',''), ' {}()[]' || chr(9) || chr(10) || chr(13), '')='0,4,1,2,1,4,2,0,3,0,3,4,4,2,5,0,5,2'
+        AND p_answer->>'order10'='false';
   END CASE;
 
   UPDATE public.room_progress
