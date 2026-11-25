@@ -16,7 +16,11 @@ BEGIN
 END $$;
 
 ALTER TABLE public.room_progress
+ DROP CONSTRAINT IF EXISTS room_progress_room_number_check;
+ALTER TABLE public.room_progress
  ADD CONSTRAINT room_progress_room_number_check CHECK (room_number BETWEEN 1 AND 10);
+ALTER TABLE public.interaction_events
+ DROP CONSTRAINT IF EXISTS interaction_events_room_number_check;
 ALTER TABLE public.interaction_events
  ADD CONSTRAINT interaction_events_room_number_check CHECK (room_number BETWEEN 1 AND 10);
 ALTER TABLE public.game_results
@@ -207,7 +211,7 @@ BEGIN
   RETURN jsonb_build_object('accepted',v_ok,
     'message',CASE WHEN v_ok THEN 'Mecanismo desbloqueado. La siguiente sala está disponible.' ELSE 'La respuesta no es correcta. Revisa el procedimiento e inténtalo de nuevo.' END,
     'score',CASE WHEN v_ok THEN v_score ELSE 0 END,
-    'next_room',CASE WHEN v_ok AND p_room_number<8 THEN p_room_number+1 ELSE NULL END);
+    'next_room',CASE WHEN v_ok AND p_room_number<10 THEN p_room_number+1 ELSE NULL END);
 END;
 $$;
 
